@@ -14,8 +14,8 @@ server {
     	try_files $uri =404;
     	fastcgi_split_path_info ^(.+\.php)(/.+)$;
         # 環境変数から取得したい
-        fastcgi_pass   lara9app:9000;
-        # fastcgi_pass   ${APP_SERVER_NAME}:9000;
+        # fastcgi_pass   lara9app:9000;
+        fastcgi_pass   ${APP_SERVER_NAME}:9000;
         fastcgi_index  index.php;
         include fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
