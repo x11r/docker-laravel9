@@ -1,4 +1,6 @@
 
+include .env.example
+
 up:
 	docker-compose up
 stop:
@@ -6,24 +8,23 @@ stop:
 build:
 	cp ./.env.example ./.env
 	cp ./src/.env.example ./src/.env
-	include .env
-	docker-compose up --build -d
+	# include .env
+	docker-compose up --build
 ps:
 	docker ps
+console:
+	docker exec -it ${APP_SERVER_NAME} /bin/bash
 migrate:
-	include .env
 	docker exec -it ${APP_SERVER_NAME} php artisan migrate
 fresh:
-	include .env
 	docker exec -it ${APP_SERVER_NAME} php artisan migrate:fresh
 seed:
-	include .env
 	docker exec -it ${APP_SERVER_NAME} php artisan db:seed
 init:
 	# Windowsだと出来ない場所
 	cp ./.env.example ./.env
 	cp src/.env.example src/.env
-	include .env
+	
 	# docker-compose up --build -d
 	# docker exec -it ${APP_SERVER_NAME} composer install
 	# docker exec -it ${APP_SERVER_NAME} php artisan migrate

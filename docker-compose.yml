@@ -6,13 +6,13 @@ services:
     build: ./docker/nginx
     volumes:
       - ./src:/var/www
-      - ./docker/nginx/templates:/etc/nginx/template
+      - ./docker/nginx/templates:/etc/nginx/conf.d
     ports:
       - 8080:80
     working_dir: /var/www
     depends_on: 
       - app
-    # command: /bin/sh -c "envsubst "$$APP_SERVER_NAME"
+    # command: sh /etc/nginx/conf.d/init.sh
     environment:
       APP_SERVER_NAME: ${APP_SERVER_NAME}
   app:
