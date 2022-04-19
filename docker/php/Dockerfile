@@ -8,7 +8,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bi/composer
 RUN apt-get -y update \
     && apt-get -y upgrade \
     && apt-get install -y git unzip vim \
-    && docker-php-ext-install mysqli pdo_mysql opcache 
+    && pecl install apcu \
+    && docker-php-ext-install mysqli pdo_mysql opcache \
+    && docker-php-ext-enable apcu
 
 # docker-php-ext-install
 
