@@ -1,14 +1,18 @@
 
-include .env.example
+#cp ./.env.example ./.env
+#include .env.example
 
 up:
+	include .env
 	docker-compose up
 stop:
 	docker-compose stop
+down:
+	docker-compose stop
 build:
-	cp ./.env.example ./.env
-	cp ./src/.env.example ./src/.env
-	# include .env
+	cp .env.example .env
+	cp src/.env.example src/.env
+	include ./.env
 	docker-compose up --build
 ps:
 	docker ps
