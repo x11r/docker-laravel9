@@ -1,6 +1,26 @@
-version: "3.8"
+version: "3.9"
 
 services:
+  minio:
+#    image: quay.io/mino/minio:latest
+    image: minio/minio:RELEASE.2022-01-08T03-11-54Z
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    entrypoint: sh
+#    command: server --console-address ":9001" /data
+    command: -c "/opt/bin/minio server /export --address :9000 --console-address :9001"
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - ./data/minio:/export
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
   web:
     container_name: ${WEB_SERVER_NAME}
     build: ./docker/nginx
@@ -10,7 +30,7 @@ services:
     ports:
       - "8080:80"
     working_dir: /var/www
-    depends_on: 
+    depends_on:
       - app
     # command: sh /etc/nginx/conf.d/init.sh
     environment:
@@ -22,8 +42,9 @@ services:
       - ./src:/var/www
       - ./docker/php/php.ini:/ust/local/etc/php/php.ini
     working_dir: /var/www
-    depends_on: 
+    depends_on:
       - db
+      - minio
   db:
     container_name: ${DB_SERVER_NAME}
     image: mysql/mysql-server:8.0.28-1.2.7-server
@@ -32,6 +53,7 @@ services:
       MYSQL_USER: "${MYSQL_USER}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_PORT: "${MYSQL_PORT}"
     volumes:
       - ./data/db:/var/lib/mysql
       - ./docker/mysql/my.cnf:/etc/my.cnf
@@ -41,6 +63,7 @@ services:
 networks:
   default:
     driver: bridge
+
 
 # volumes:
 #   php-fpm-socket:
