@@ -1,10 +1,10 @@
 #cp ./.env.example ./.env
 
-include .env
+include ./.env
 
 build:
-	docker-compose stop
-	docker-compose up --build -d
+	docker-compose -p ${PROJECT_NAME} stop
+	docker-compose -p ${PROJECT_NAME} up --build -d
 console:
 	docker exec -it ${APP_SERVER_NAME} /bin/bash
 
@@ -14,12 +14,12 @@ ps:
 	docker ps
 
 stop:
-	docker-compose stop
+	docker-compose -p ${PROJECT_NAME} stop
 up:
 	docker-compose up -d
 
 migrate:
-	docker exec -it ${APP_SERVER_NAME} php artisan migrate
+	docker-compose -p ${PROJECT_NAME} exec app php artisan migrate
 fresh:
 	docker exec -it ${APP_SERVER_NAME} php artisan migrate:fresh
 seed:
@@ -39,6 +39,7 @@ init:
 ## その他
 
 web:
-	docker exec -it ${WEB_SERVER_NAME} /bin/sh
+	#docker exec -it ${WEB_SERVER_NAME} /bin/sh
 app:
-	docker exec -it ${APP_SERVER_NAME} bash
+	docker-compose -p ${PROJECT_NAME} exec app bash
+	#docker exec -it ${APP_SERVER_NAME} bash
