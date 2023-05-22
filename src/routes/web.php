@@ -24,3 +24,19 @@ use App\Http\Controllers\HolidayController;
 Route::resources([
 	'holidays' => HolidayController::class
 ]);
+
+Route::group(['prefix' => 'admin'], function() {
+	Route::get('news/add', [Controllers\Admin\NewsController::class, 'add']);
+});
+
+Route::group(['prefix' => 'excel', 'as' => 'excel.'], function () {
+	Route::any('', function () {
+		return view('excel.index');
+	})->name('top');
+	Route::get('download', [ExcelController::class, 'download'])->name('download');
+});
+
+Route::group(['prefix' => 'bladeComponent'], function () {
+
+	Route::get('/');
+});
