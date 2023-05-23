@@ -1,0 +1,12 @@
+{
+  "resources/js/holiday.js": {
+    "file": "assets/holiday-3a7514d5.js",
+    "isEntry": true,
+    "src": "resources/js/holiday.js"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-378e6984.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  }
+}

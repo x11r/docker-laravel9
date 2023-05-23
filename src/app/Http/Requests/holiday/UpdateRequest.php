@@ -3,8 +3,9 @@
 namespace App\Http\Requests\holiday;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,29 +20,41 @@ class StoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules()
     {
+//		$id = $this->request()->input('id');
+		$params = $this->route()->parameters();
+
+//		\Log::debug(__LINE__ . ' ' . __METHOD__ . ' [id] ' . $id);
+		\Log::debug(__LINE__ . ' ' . __METHOD__ . ' [params] ' . print_r($params, true));
         return [
+//			'id' => [
+//				'required',
+//				'integer',
+//			],
             'date' => [
 				'required',
 	            'date',
-	            'unique:holidays'
+	            Rule::unique('holidays')->ignore($params['holiday']),
             ],
 	        'name' => [
 				'required',
 		        'string',
-		        'max:255'
+		        'max:255',
 	        ],
 	        'comment' => [
 				'nullable',
 		        'string',
-		        'max:255',
+		        'max:255'
 	        ]
         ];
     }
 
+	/**
+	 * @param Validator $validator
+	 */
 	public function attributes()
 	{
 		return [

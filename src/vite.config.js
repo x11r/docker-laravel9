@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [
         // vue(),
         laravel([
-            'resources/scss/app.sass',
+            'resources/sass/app.scss',
             'resources/js/holiday.js',
         ])
     ]

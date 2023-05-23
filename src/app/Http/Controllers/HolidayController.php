@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\holiday\StoreRequest;
+use App\Http\Requests\holiday\UpdateRequest;
 use App\Models\Holiday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -107,7 +108,19 @@ class HolidayController extends Controller
      */
     public function edit($id)
     {
-        //
+        $holiday = Holiday::where('id', $id)->first();
+
+		$sessionKey = __METHOD__;
+
+		if (! $this->request->session()->has($sessionKey)) {
+			$session = $holiday;
+		}
+
+		$params = [
+			'holiday' => $holiday,
+		];
+
+		return view('holiday.edit', $params);
     }
 
     /**
@@ -117,9 +130,18 @@ class HolidayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        //
+
+		$holiday = Holiday::where('id', $id)->first();
+		$holiday->fill([
+			'date' => $request->input('date'),
+			'name' => $request->input('name'),
+			'comment' => $request->input('comment'),
+		])
+			->save();
+
+		return redirect()->route('holidays.index');
     }
 
     /**

@@ -1,9 +1,18 @@
 @extends ('layouts.holiday')
-@section ('title', '休日 一覧')
+@section ('title', '休日情報 一覧')
 
 @section ('content')
     <div class="container">
-        <div class="h1">登録済み一覧</div>
+        <div class="h1">休日情報 登録済み一覧</div>
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div>
             @if ($holidays->count())
                 @foreach ($holidays as $holiday)
@@ -20,21 +29,22 @@
                 @endforeach
             @endif
         </div>
-{{--        {{ Form::open(['route' => 'holidays.store']) }}--}}
-{{--        {{ Form::date('date', session($sessionKey.'.date')) }}--}}
-{{--        {{ Form::text('name') }}--}}
-{{--        {{ Form::submit('登録') }}--}}
-{{--        {{ Form::close() }}--}}
 
         <div>
             {{ html()->form('post', route('holidays.store'))->open() }}
             <div>日付</div>
-            {{ html()->date('date') }}
-            <div>呼称</div>
-            {{ html()->text('name')->placeholder('呼称') }}
+            <div class="col-md-4">
+                {{ html()->date('date')->class(['form-control']) }}
+            </div>
+            <div>休日名</div>
+            <div class=" col-md-4">
+                {{ html()->text('name')->placeholder('休日名')->class(['form-control']) }}
+            </div>
             <div>備考</div>
-            {{ html()->textarea()->placeholder('備考') }}
-            <div>{{ html()->submit('登録') }}</div>
+            <div class="col-md-4">
+                {{ html()->textarea('comment')->placeholder('備考')->class(['form-control']) }}
+            </div>
+            <div>{{ html()->submit('登録')->class(['btn btn-primary']) }}</div>
             {{ html()->form()->close() }}
         </div>
     </div>
