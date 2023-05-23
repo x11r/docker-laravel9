@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\holiday;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,16 +26,9 @@ class UpdateRequest extends FormRequest
      */
     public function rules()
     {
-//		$id = $this->request()->input('id');
 		$params = $this->route()->parameters();
 
-//		\Log::debug(__LINE__ . ' ' . __METHOD__ . ' [id] ' . $id);
-		\Log::debug(__LINE__ . ' ' . __METHOD__ . ' [params] ' . print_r($params, true));
         return [
-//			'id' => [
-//				'required',
-//				'integer',
-//			],
             'date' => [
 				'required',
 	            'date',

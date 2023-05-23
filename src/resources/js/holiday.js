@@ -1,6 +1,6 @@
 
-
-console.log('---- holiday.js ----');
-
-
 import './bootstrap';
+
+import vue from 'vue'
+
+
