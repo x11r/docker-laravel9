@@ -1,4 +1,4 @@
-@extends ('layouts.holiday')
+@extends ('layouts.home')
 @section ('title', '休日情報編集')
 
 @section ('content')

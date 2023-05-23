@@ -10,7 +10,7 @@ use App\Models\Holiday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class HolidayController extends Controller
+class HolidaysController extends Controller
 {
 	protected Request $request;
 
